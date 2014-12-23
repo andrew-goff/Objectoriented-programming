@@ -1,5 +1,5 @@
 ﻿//AndrewG8460
-//Program file that creates the Wizard fighter class inheriting from the FriendlyFighter
+//Program file that creates the Wizard fighter class and inherits from FriendlyFighter
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,13 @@ namespace ConsoleDrivenBattleGame
 {
     public class Wizard : FriendlyFighter
     {
-        //Create the wizard fighter
-        private int wizard;
-
-	    public Wizard (int Wizard, int getId, Weapon pweapon, Magic pmagic): base(pweapon, pmagic)
+	    public Wizard (int id): base(id, Weapon.NONE, Magic.INVISIBILITY)
         {
-            wizard = Wizard;
 	    }
 
-        public int getWizard()
-        {           
-            return wizard;
+        public string ToString()
+        {
+            return "Wizard " + base.ToString();
         }
     }
 }
