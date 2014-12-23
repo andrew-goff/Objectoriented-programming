@@ -29,7 +29,7 @@ namespace ConsoleDrivenBattleGame
                 int enemyWins = 0;
                 int friendlyWins = 0;
                 int i = 0;
-                int count = 0;
+                
             //Ask the user if they wish to play again
             Console.WriteLine("Do you wish to play the battle game? Y/N \n");
 
@@ -44,11 +44,11 @@ namespace ConsoleDrivenBattleGame
                 {
                     foreach ( IFighter enemyFighter in enemy)
                     {
-                        
+                        //String the instances on one line containing the enemy fighter
                         //Inspect the enemy army and ask the user to rearrange enemy fighters
-                        Console.WriteLine("Enemy fighter:" + enemyFighter.ToString()  + "\n");                    
+                        Console.WriteLine("Enemy fighter:" + enemyFighter.ToString() + "\n");                    
                     }
-                        Console.WriteLine("Do you want to rearrange the enemy army? \n");
+                    Console.WriteLine("Do you want to rearrange the enemy army? \n");
 
                     ConsoleKeyInfo rearrange = Console.ReadKey();
                     if (rearrange.KeyChar == 'y')
@@ -68,28 +68,27 @@ namespace ConsoleDrivenBattleGame
                 foreach ( IFighter enemyFighter in enemy)
                 {
                     IFighter friendlyFighter = army[i++];
+
                     // Count how many times either the FriendlyFighter or EnemyFighter wins the individual battle
                     bool enemyWin = getCombatResult(enemyFighter, friendlyFighter);
                 
                     if (enemyWin == true)
                     {
                         enemyWins++;
-                        Console.WriteLine("The winner of the battle is the enemy fighter \n");
+                        Console.WriteLine("The winner of the battle is the enemy fighter " + enemyFighter.ToString() + "\n");
                     }
                     else
                     {
-                        Console.WriteLine("The winner of the battle is the friendly fighter \n");
+                        friendlyWins++;
+                        Console.WriteLine("The winner of the battle is the friendly fighter " + friendlyFighter.ToString() + "\n");
                     }
-                    enemyWins = enemyWins;
-                    friendlyWins = i - enemyWins;
-                
                 }
+
                 // Print out how many times either the EnemyFighter or the FriendlyFighter won each battle
                 Console.WriteLine("The enemy fighter battle victory score is:", enemyWins ,"\n");
                 Console.WriteLine(enemyWins);
                 Console.WriteLine("The friendly fighter battle victory score is:", friendlyWins ,"\n");
                 Console.WriteLine(friendlyWins);
-            
 
                 // Print out whether the EnemyArmy or the FriendlyArmy won the game
                 if (friendlyWins < enemyWins)
