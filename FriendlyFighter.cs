@@ -12,9 +12,8 @@ namespace ConsoleDrivenBattleGame
      //Initialise the Interface/
      {  
          //Get method properties from getId, getMagic and getWeapon
-         public int getId()
+        public int getId()
         {
-            int id = 0;
             return id;
         }
         public Weapon getWeapon()
@@ -22,24 +21,49 @@ namespace ConsoleDrivenBattleGame
             return weapon;
         }
 
-
         public Magic getMagic()
         {
             return magic;
         }
 
+        int id;
         Weapon weapon;
         Magic magic;
-        getId id; 
+        private int wins = 0;
+        private int loss = 0;
 
-
-        public FriendlyFighter(Weapon pweapon, Magic pmagic)
+        public FriendlyFighter(int id, Weapon pweapon, Magic pmagic)
         {
             // Initialization of the constructor
+            this.id = id;
             this.weapon = pweapon;
             this.magic = pmagic;
         }
 
 
+        public void win()
+        {
+            wins++;
+        }
+
+        public int getWins()
+        {
+            return wins;
+        }
+
+        public void loose()
+        {
+            loss++;
+        }
+
+        public int getLoss()
+        {
+            return loss;
+        }
+
+         public override string ToString()
+        {
+            return id + ", " + magic + ", " + weapon;
+        }
      }
 }
