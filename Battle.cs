@@ -11,29 +11,35 @@ namespace ConsoleDrivenBattleGame
 {
     class Battle
     {
+
         static void Main(string[] args)
         {
+            Battle battle;
+            
+            battle = new Battle();
 
-            //create Enemy Army
-            EnemyArmy enemyArmy = new EnemyArmy();
+            battle.doBattle();
+        }
 
-            List<Enemy> enemy = enemyArmy.create(10);
+        public void doBattle()
+        {
+            List<Enemy> enemy;
+            List<IFighter> army;
 
-            //create Friendly Army
-            FriendlyArmy friendlyArmy = new FriendlyArmy();
-            List<IFighter> army = friendlyArmy.create(enemy.Count);
+            create(10, out enemy, out army);
 
-                // TODO: learn enumerators
-                // List<IFighter>.Enumerator friendlyFighters = army.GetEnumerator();
-                // Initialise the variables
-                int enemyWins = 0;
-                int friendlyWins = 0;
-                int i = 0;
-                
+            // TODO: learn enumerators
+            // List<IFighter>.Enumerator friendlyFighters = army.GetEnumerator();
+            // Initialise the variables
+            int enemyWins = 0;
+            int friendlyWins = 0;
+            int i = 0;
+        
             //Ask the user if they wish to play again
             Console.WriteLine("Do you wish to play the battle game? Y/N \n");
 
             ConsoleKeyInfo ans = Console.ReadKey();
+
             if (ans.KeyChar == 'Y')
             {
                 //Ask the user if they want to inspect the enemy Army
@@ -42,8 +48,10 @@ namespace ConsoleDrivenBattleGame
 
                 if (inspect.KeyChar == 'y')
                 {
+                       
                     foreach ( IFighter enemyFighter in enemy)
                     {
+  
                         //String the instances on one line containing the enemy fighter
                         //Inspect the enemy army and ask the user to rearrange enemy fighters
                         Console.WriteLine("Enemy fighter:" + enemyFighter.ToString() + "\n");                    
@@ -102,9 +110,9 @@ namespace ConsoleDrivenBattleGame
                 else if (friendlyWins == enemyWins)
                 {
                      Console.WriteLine("The battle game is a draw!");
-                     
                 }
             }
+
             //Print out stastitics showing the best and worst fighters for the enemy and friendly army
             foreach (IFighter enemyFighter in enemy)
             {
@@ -117,9 +125,20 @@ namespace ConsoleDrivenBattleGame
                     Console.WriteLine("The least successful enemy fighter is:" + enemyFighter.getId() + "\n");
                 }
             }
-
             
             Console.ReadLine();
+        }
+
+        private static void create(int fighters, out List<Enemy> enemy, out List<IFighter> army)
+        {
+            //create Enemy Army
+            EnemyArmy enemyArmy = new EnemyArmy();
+
+            enemy = enemyArmy.create(fighters);
+
+            //create Friendly Army
+            FriendlyArmy friendlyArmy = new FriendlyArmy();
+            army = friendlyArmy.create(enemy.Count);
         }
 
         //Calculate the result/
