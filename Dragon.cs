@@ -11,14 +11,12 @@ namespace ConsoleDrivenBattleGame
     public class Dragon : FriendlyFighter
     {
         public Dragon (int id) : base(id, Weapon.FIRE, Magic.NONE)
-        {  
-            
-            
+        {   
         }
-        
-        public string ToString()
+
+        public override string ToString()
         {
-            return " Dragon" + base.ToString();
+            return "Dragon " + base.ToString();
         }
     }
 }
