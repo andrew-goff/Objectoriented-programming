@@ -14,7 +14,7 @@ namespace ConsoleDrivenBattleGame
         {
 	    }
 
-        public string ToString()
+        public override string ToString()
         {
             return "Wizard " + base.ToString();
         }
