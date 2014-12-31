@@ -1,7 +1,6 @@
 ﻿//AndrewG8460
 //Program file that creates the Swordsman class and inherits from FriendlyFighter
 using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +15,7 @@ namespace ConsoleDrivenBattleGame
 
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return "Swordsman " + base.ToString();
         }
