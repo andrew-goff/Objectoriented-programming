@@ -61,7 +61,7 @@ namespace ConsoleDrivenBattleGame
             return loss;
         }
 
-         public override string ToString()
+        public override string ToString()
         {
             return id + ", " + magic + ", " + weapon;
         }
