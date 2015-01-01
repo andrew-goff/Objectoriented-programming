@@ -9,9 +9,8 @@ using EnemyFighters;
 
 namespace ConsoleDrivenBattleGame
 {
-    class Battle
+    public class Battle
     {
-
         static void Main(string[] args)
         {
             Battle battle;
@@ -23,18 +22,10 @@ namespace ConsoleDrivenBattleGame
 
         public void doBattle()
         {
-            List<Enemy> enemy;
+            int count = 10;
+            List<IFighter> enemy;
             List<IFighter> army;
 
-            create(10, out enemy, out army);
-
-            // TODO: learn enumerators
-            // List<IFighter>.Enumerator friendlyFighters = army.GetEnumerator();
-            // Initialise the variables
-            int enemyWins = 0;
-            int friendlyWins = 0;
-            int i = 0;
-        
             //Ask the user if they wish to play again
             Console.WriteLine("Do you wish to play the battle game? Y/N \n");
 
@@ -42,6 +33,8 @@ namespace ConsoleDrivenBattleGame
 
             if (ans.KeyChar == 'Y')
             {
+                create(count, out enemy, out army);
+
                 //Ask the user if they want to inspect the enemy Army
                 Console.WriteLine("Do you want to inspect the enemy army? \n");
                 ConsoleKeyInfo inspect = Console.ReadKey();
@@ -72,25 +65,10 @@ namespace ConsoleDrivenBattleGame
                     }
                 }
 
-                // Increment and complete each fighter battle
-                foreach ( IFighter enemyFighter in enemy)
-                {
-                    IFighter friendlyFighter = army[i++];
+                int enemyWins = 0;
+                int friendlyWins = 0;
 
-                    // Count how many times either the FriendlyFighter or EnemyFighter wins the individual battle
-                    bool enemyWin = getCombatResult(enemyFighter, friendlyFighter);
-                
-                    if (enemyWin == true)
-                    {
-                        enemyWins++;
-                        Console.WriteLine("The winner of the battle is the enemy fighter " + enemyFighter.ToString() + "\n");
-                    }
-                    else
-                    {
-                        friendlyWins++;
-                        Console.WriteLine("The winner of the battle is the friendly fighter " + friendlyFighter.ToString() + "\n");
-                    }
-                }
+                fight(enemy, army, out enemyWins, out friendlyWins);
 
                 // Print out how many times either the EnemyFighter or the FriendlyFighter won each battle
                 Console.WriteLine("The enemy fighter battle victory score is:", enemyWins ,"\n");
@@ -99,42 +77,78 @@ namespace ConsoleDrivenBattleGame
                 Console.WriteLine(friendlyWins);
 
                 // Print out whether the EnemyArmy or the FriendlyArmy won the game
-                if (friendlyWins < enemyWins)
+                if (enemyWins > friendlyWins)
                 {
                     Console.WriteLine("The enemy army has won the battle!");
                 }
-                else if (friendlyWins > enemyWins)
+                else if (enemyWins < friendlyWins)
                 {
                     Console.WriteLine("The friendly army has won the battle!");
                 }
-                else if (friendlyWins == enemyWins)
+                else
                 {
-                     Console.WriteLine("The battle game is a draw!");
+                    Console.WriteLine("The battle game is a draw!");
                 }
             }
 
-            //Print out stastitics showing the best and worst fighters for the enemy and friendly army
-            foreach (IFighter enemyFighter in enemy)
-            {
-                if (enemyWins > friendlyWins)
-                { 
-                    Console.WriteLine("The most successful enemy fighter is:" + enemyFighter.getId() + "\n");
-                }
-                else if (friendlyWins > enemyWins)
-                {
-                    Console.WriteLine("The least successful enemy fighter is:" + enemyFighter.getId() + "\n");
-                }
-            }
-            
             Console.ReadLine();
         }
 
-        private static void create(int fighters, out List<Enemy> enemy, out List<IFighter> army)
+        public int fight(List<IFighter> enemy, List<IFighter> army, out int enemyWins, out int friendlyWins)
+        {
+            int soldier = 0;
+
+            enemyWins = 0;
+            friendlyWins = 0;
+
+            // Increment and complete each fighter battle
+            foreach (IFighter enemyFighter in enemy)
+            {
+                if (soldier < army.Count)
+                {
+                    bool enemyWin;
+
+                    do
+                    {
+                        IFighter friendlyFighter = army[soldier];
+
+                        // Count how many times either the FriendlyFighter or EnemyFighter wins the individual battle
+                        enemyWin = getCombatResult(enemyFighter, friendlyFighter);
+
+                        if (enemyWin == true)
+                        {
+                            enemyWins++;
+                            soldier++;
+                            enemyFighter.win();
+                            friendlyFighter.loose();
+                            Console.WriteLine("The winner of the battle is the enemy fighter " + enemyFighter.ToString() + "\n");
+                        }
+                        else
+                        {
+                            friendlyWins++;
+                            enemyFighter.loose();
+                            friendlyFighter.win();
+                            Console.WriteLine("The winner of the battle is the friendly fighter " + friendlyFighter.ToString() + "\n");
+                        }
+                    }
+                    while ((soldier < army.Count) && enemyWin);
+                }
+            }
+
+            return enemyWins - friendlyWins;
+        }
+
+        public void create(int fighters, out List<IFighter> enemy, out List<IFighter> army)
         {
             //create Enemy Army
             EnemyArmy enemyArmy = new EnemyArmy();
 
-            enemy = enemyArmy.create(fighters);
+            List<Enemy> enemies = enemyArmy.create(fighters);
+            enemy = new List<IFighter>(fighters);
+            foreach (IFighter enemyFighter in enemies)
+            {
+                enemy.Add(enemyFighter);
+            }
 
             //create Friendly Army
             FriendlyArmy friendlyArmy = new FriendlyArmy();
@@ -142,7 +156,7 @@ namespace ConsoleDrivenBattleGame
         }
 
         //Calculate the result/
-        private static bool getCombatResult(IFighter enemyfighter, IFighter friendlyfighter)
+        public bool getCombatResult(IFighter enemyfighter, IFighter friendlyfighter)
         {
             Random r = new Random();
 
@@ -171,8 +185,9 @@ namespace ConsoleDrivenBattleGame
                 return false; // Friendly fighter wins
             }
         }
+
         // Get the random Result of the friendly army
-        private static bool randomResult(Random r)
+        public bool randomResult(Random r)
         {
             // Random result
             if (r.Next() > 0.5)
