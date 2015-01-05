@@ -10,7 +10,7 @@ namespace ConsoleDrivenBattleGame
 {
     public class Wizard : FriendlyFighter
     {
-	    public Wizard (int id): base(id, Weapon.NONE, Magic.INVISIBILITY)
+	    public Wizard (int id): base(id, Weapon.SWORD, Magic.INVISIBILITY)
         {
 	    }
 
