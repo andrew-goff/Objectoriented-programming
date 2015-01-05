@@ -56,9 +56,9 @@ namespace ConsoleDrivenBattleGame
             loss++;
         }
 
-        public int getLoss()
+        public bool hasLost()
         {
-            return loss;
+            return loss > 0;
         }
 
         public override string ToString()
