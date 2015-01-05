@@ -34,6 +34,9 @@ namespace EnemyFighters
 
         void win();
         void loose();
+
+        int getWins();
+        bool hasLost();
     }
 
     public class Enemy : IFighter
@@ -86,9 +89,9 @@ namespace EnemyFighters
             loss++;
         }
 
-        public int getLoss()
+        public bool hasLost()
         {
-            return loss;
+            return loss > 0;
         }
 
         public override string ToString()
