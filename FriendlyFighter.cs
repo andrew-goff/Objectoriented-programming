@@ -40,7 +40,7 @@ namespace ConsoleDrivenBattleGame
             this.magic = pmagic;
         }
 
-
+        //Set method properties for win, getWins, loose and hasLost
         public void win()
         {
             wins++;
@@ -60,7 +60,7 @@ namespace ConsoleDrivenBattleGame
         {
             return loss > 0;
         }
-
+        //Print out the friendly fighter description in the string
         public override string ToString()
         {
             return id + ", " + magic + ", " + weapon;
