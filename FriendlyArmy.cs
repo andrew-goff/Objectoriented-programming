@@ -10,6 +10,8 @@ namespace ConsoleDrivenBattleGame
 {
     public class FriendlyArmy
     {
+        Random r = new Random();
+
         //Create the friendly army
         public List<IFighter> create(int count)
         {
@@ -19,21 +21,22 @@ namespace ConsoleDrivenBattleGame
             for (int i = 0; i < count; i++)
             {
                 IFighter fighter;
-                Random r = new Random();
+
                 int fighterswitch = r.Next(4);
+
                 switch (fighterswitch)
                 {
                     case 1:
-                        fighter = new FriendlyFighter(Weapon.SWORD, Magic.NONE);
+                        fighter = new Swordsman(i+1);
                         break;
                     case 2:
-                        fighter = new FriendlyFighter(Weapon.NONE, Magic.INVISIBILITY);
+                        fighter = new Wizard(i+1);
                         break;
                     case 3:
-                        fighter = new FriendlyFighter(Weapon.FIRE, Magic.NONE);
+                        fighter = new Dragon(i+1);
                         break;
                     default:
-                        fighter = new FriendlyFighter(Weapon.NONE, Magic.NONE);
+                        fighter = new FriendlyFighter(i+1, Weapon.NONE, Magic.NONE);
                         break;
                 }
 
