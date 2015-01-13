@@ -14,6 +14,7 @@ namespace ConsoleDrivenBattleGame
         {
 	    }
 
+        //Print out the wizard fighter in the string
         public override string ToString()
         {
             return "Wizard " + base.ToString();
