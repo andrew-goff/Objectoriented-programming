@@ -1,5 +1,5 @@
 ﻿//AndrewG8460
-//Program file that get the CombatResult of both fighters and declares the winning fighter and the winning army
+//Program file that gets the CombatResult of both fighters, declares the winning fighter and the winning army and prints out statistics
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace ConsoleDrivenBattleGame
     {
         static void Main(string[] args)
         {
+            //Create a class called Battle and a method DoBattle
             Battle battle;
 
                 battle = new Battle((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -21,7 +22,7 @@ namespace ConsoleDrivenBattleGame
         }
 
         protected Random r;
-
+        //Initialise the random number seed
         public Battle(int seed)
         {
             r = new Random(seed);
@@ -34,45 +35,36 @@ namespace ConsoleDrivenBattleGame
             List<IFighter> army;
 
             //Ask the user if they wish to play again
-            Console.WriteLine("Do you wish to play the battle game? Y/N \n");
-
-            ConsoleKeyInfo ans = Console.ReadKey();
-
-            if (ans.KeyChar == 'Y')
+            if (getInput("Do you wish to play the battle game"))
             {
-                create(count, out enemy, out army);
+                    create(count, out enemy, out army);
 
-                Console.WriteLine("\n");
-                //Ask the user if they want to inspect the enemy Army
-                Console.WriteLine("Do you want to inspect the enemy army? \n");
-                ConsoleKeyInfo inspect = Console.ReadKey();
+                    Console.WriteLine("\n");
 
-                if (inspect.KeyChar == 'y')
-                {
-                       
-                    foreach ( IFighter enemyFighter in enemy)
+                    //Ask the user if they want to inspect the enemy Army
+                    if (getInput("Do you want to inspect the enemy army"))
                     {
-                        Console.WriteLine("\n");
-                        //String the instances on one line containing the enemy fighter
-                        //Inspect the enemy army and ask the user to rearrange enemy fighters
-                        Console.WriteLine("Enemy fighter:" + enemyFighter.ToString() + "\n");                    
-                    }
-                    Console.WriteLine("Do you want to rearrange the enemy army? \n");
 
-                    ConsoleKeyInfo rearrange = Console.ReadKey();
-                    if (rearrange.KeyChar == 'y')
-                    {
-                        //Rearrange the enemy fighters
-                        Console.WriteLine("\n");
-                        Console.WriteLine("Do you wish to keep the order as it is or rearrange it? \n");
-                        ConsoleKeyInfo reverse = Console.ReadKey();
-
-                        if (reverse.KeyChar == 'y')
+                        foreach (IFighter enemyFighter in enemy)
                         {
-                            enemy.Reverse();
+                            //String the instances on one line containing the enemy fighter
+                            //Inspect the enemy army and ask the user to rearrange enemy fighters
+                            Console.WriteLine("Enemy fighter:" + enemyFighter.ToString() + "\n");
+                        }
+
+                        //Ask the user if they want to rearrange the enemy arm
+                        if (getInput("Do you want to rearrange the enemy army"))
+                        {
+                            //Rearrange the enemy fighters
+                            Console.WriteLine("\n");
+
+                            if (getInput("Do you wish to keep the order as it is or rearrange it"))
+                            {
+                                enemy.Reverse();
+                            }
                         }
                     }
-                }
+                    
 
                 int enemyWins = 0;
                 int friendlyWins = 0;
@@ -86,28 +78,25 @@ namespace ConsoleDrivenBattleGame
                 
                 //Print out the statistics showing the worst and best enemy and friendly fighters
                 statistics(enemy, out bestEnemy, out worstEnemy);
-                Console.WriteLine("The best enemy fighter is:", bestEnemy, "\n");
-                Console.WriteLine(bestEnemy);
-                Console.WriteLine("\n");
-                Console.WriteLine("The worst enemy fighter is:", worstEnemy, "\n");
-                Console.WriteLine(worstEnemy);
-                Console.WriteLine("\n");
+
+                Console.WriteLine("The best enemy fighter is:" + bestEnemy + "\n");
+
+                Console.WriteLine("The worst enemy fighter is:" + worstEnemy + "\n");
+
 
                 statistics(army, out bestFriendly, out worstFriendly);
-                Console.WriteLine("The best friendly fighter is:", bestFriendly, "\n");
-                Console.WriteLine(bestFriendly);
-                Console.WriteLine("\n");
-                Console.WriteLine("The worst friendly fighter is:", worstFriendly, "\n");
-                Console.WriteLine(worstFriendly);
-                Console.WriteLine("\n");
+                Console.WriteLine("The best friendly fighter is:" + bestFriendly + "\n");
+
+                Console.WriteLine("The worst friendly fighter is:" + worstFriendly + "\n");
+
 
                 // Print out how many times either the EnemyFighter or the FriendlyFighter won each battle
-                Console.WriteLine("The enemy fighter battle victory score is:", enemyWins ,"\n");
-                Console.WriteLine(enemyWins);
-                Console.WriteLine("The friendly fighter battle victory score is:", friendlyWins ,"\n");
-                Console.WriteLine(friendlyWins);
+                Console.WriteLine("The enemy fighter battle victory score is:" + enemyWins + "\n");
 
-                // Print out whether the EnemyArmy or the FriendlyArmy won the game
+                Console.WriteLine("The friendly fighter battle victory score is:" + friendlyWins + "\n");
+
+
+                // Print out whether the EnemyArmy or the FriendlyArmy won the game or the game was a draw
                 if (enemyWins > friendlyWins)
                 {
                     Console.WriteLine("The enemy army has won the battle!" + "\n");
@@ -121,8 +110,10 @@ namespace ConsoleDrivenBattleGame
                     Console.WriteLine("The battle game is a draw!" + "\n");
                 }
             }
-         
+
+
             Console.ReadLine();
+           
         }
 
         public int fight(List<IFighter> enemy, List<IFighter> army, out int enemyWins, out int friendlyWins)
@@ -152,21 +143,17 @@ namespace ConsoleDrivenBattleGame
                             soldier++;
                             enemyFighter.win();
                             friendlyFighter.loose();
-                            Console.WriteLine("The winner of the battle is the enemy fighter " + enemyFighter.ToString() + "\n");
-                            Console.Write(enemyFighter.ToString() + "" + "\n");
+                            Console.WriteLine("Enemy fighter " + enemyFighter + " beats friendly fighter " + friendlyFighter + "\n");
                         }
                         else
                         {
                             friendlyWins++;
                             enemyFighter.loose();
                             friendlyFighter.win();
-                            Console.WriteLine("The winner of the battle is the friendly fighter " + friendlyFighter.ToString() + "\n");
-                            Console.Write(friendlyFighter.ToString() + "" + "\n");
+                            Console.WriteLine("Friendly fighter " + friendlyFighter + " beats enemy fighter " + enemyFighter + "\n");
                         }
                     }
                     while ((soldier < army.Count) && enemyWin);
-
-                   
                }
             }
 
@@ -244,7 +231,7 @@ namespace ConsoleDrivenBattleGame
         public bool randomResult(Random r)
         {
             // Random result
-            if (r.Next() > 0.5)
+            if (r.Next(2) > 0)
             {
                 return true;
             }
@@ -254,5 +241,30 @@ namespace ConsoleDrivenBattleGame
             }
         }
 
+        //Test if the input is invalid and print prompt
+        public bool getInput(string prompt) 
+        {
+            string error = "invalid input, please try again";
+
+            while (true)
+           {
+               Console.WriteLine(prompt + " [y/n] ?");
+
+               ConsoleKeyInfo choice = Console.ReadKey();
+
+               if (choice.KeyChar == 'y')
+               {
+                   return true; //Input by user is correct
+               }
+               else if (choice.KeyChar == 'n')
+               {
+                   return false; //Input by user is incorrect
+               }
+               else
+               {
+                   Console.WriteLine(error + " ["+choice.KeyChar+"]\n");
+               }
+           }
+        }
     }
 }
