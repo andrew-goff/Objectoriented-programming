@@ -13,7 +13,7 @@ namespace ConsoleDrivenBattleGame
         public Dragon (int id) : base(id, Weapon.FIRE, Magic.NONE)
         {   
         }
-
+        //Print out the description of the dragon fighter in the string
         public override string ToString()
         {
             return "Dragon " + base.ToString();
