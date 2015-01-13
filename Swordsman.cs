@@ -14,7 +14,7 @@ namespace ConsoleDrivenBattleGame
         {
 
         }
-
+        //Print out the sword fighter description in the string
         public override string ToString()
         {
             return "Swordsman " + base.ToString();
