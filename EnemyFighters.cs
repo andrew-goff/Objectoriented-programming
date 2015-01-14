@@ -31,10 +31,10 @@ namespace EnemyFighters
         Weapon getWeapon();
         Magic getMagic();
         int getId();
-
+        //Win and loose methods added in to allow extensions allowing fighter to keep battling until defeated to work
         void win();
         void loose();
-
+        //getWins and hasLost methods added in to allow extension for declaring which fighter won to work
         int getWins();
         bool hasLost();
     }
@@ -44,6 +44,7 @@ namespace EnemyFighters
         private Weapon weapon;
         private Magic magic;
         private int id;
+        //Wins and loss variables added in to allow extensions in the Battle Game to work
         private int wins = 0;
         private int loss = 0;
 
@@ -69,6 +70,7 @@ namespace EnemyFighters
             return magic;
         }
 
+        //methods below added in to make the extensions in the Battle Game work properly
         public int getId()
         {
             return id;
